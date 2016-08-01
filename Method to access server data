@@ -1,0 +1,39 @@
+	
+//Add this permission into manifest file .
+==============================================
+	   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+           <uses-permission android:name="android.permission.INTERNET" />
+     
+  
+	
+//Use below function inside Asynktask class 
+==============================================
+	public String GetJsonXml(String url) {
+		String xml = null;
+		try {
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost(url);
+			
+			
+			 // Please uncomment below lines if you are using restful web services
+ 
+			// StringEntity params =new
+			// StringEntity("{\"Username\":\""+"value1"+"\",\"Password\":\""+"value2"+"\"} ");
+			// httpPost.addHeader("content-type", "application/json");
+			// httpPost.setEntity(params);
+
+			HttpResponse httpResponse = httpClient.execute(httpPost);
+			HttpEntity httpEntity = httpResponse.getEntity();
+			xml = EntityUtils.toString(httpEntity);
+
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return xml;
+	}
+	
