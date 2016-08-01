@@ -1,0 +1,80 @@
+
+
+// First need to integrate KSOAP Lib inside Android Projects
+
+public class WebserviceCall {
+	String namespace = "http://tempuri.org/";
+	public String url = "http://URL HERE.asmx";
+	public Context context;
+	String SOAP_ACTION;
+	SoapObject request = null, objMessages = null;
+	SoapSerializationEnvelope envelope;
+	HttpTransportSE androidHttpTransport;
+	static Context ctx;
+	String h = "";
+
+	public WebserviceCall(Context ctx) {
+		WebserviceCall.ctx = ctx;
+	}
+
+	protected void SetEnvelope() {
+
+		try {
+			try {
+			} catch (Exception e) {
+				System.out.println("called  url  Error ");
+
+			}
+			envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.dotNet = true;
+			envelope.setOutputSoapObject(request);
+			androidHttpTransport = new HttpTransportSE(url);
+			androidHttpTransport.debug = true;
+
+		} catch (Exception e) {
+			System.out.println("Soap Exception---->>>" + e.toString());
+		}
+	}
+
+	// GetFeedback_Experience ()
+
+	public String CheckRegisrattion() {
+		try {
+			SOAP_ACTION = namespace + "Execute";
+			String dataString = "{\"EstibyanDATA\": {\"Header\": {\"Action\": \"methodname\",\"Lang\": \"0\"},"
+					+ "\"Body\": {\"parameter1\": \"parameter_value" + "\"}}}";
+			System.out.println("called  values sending input " + dataString);
+			request = new SoapObject(namespace, "Execute");
+
+			request = new SoapObject(namespace, "Execute");
+			// request.addProperty("data",dataString);
+			// writeToFile(CommonFunction.EncryptData(dataString));
+			request.addProperty("data", CommonFunction.EncryptData(dataString));
+
+			SetEnvelope();
+
+			try {
+
+				androidHttpTransport.call(SOAP_ACTION, envelope);
+				// String result = envelope.getResponse().toString();
+				String result = envelope.getResponse().toString();
+				// writeToFile(CommonFunction.EncryptData(result));
+				System.out.println(" DecryptData Transaction ---->>>"
+						+ result.toString());
+
+				// DataWrite(result);
+				return CommonFunction.DecryptData(result);
+
+			} catch (Exception e) {
+				// TODO: handle exception return e.toString();
+				return e.toString();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+
+			return e.toString();
+		}
+
+	}
+
+}
