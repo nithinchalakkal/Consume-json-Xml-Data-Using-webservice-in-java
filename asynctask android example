@@ -35,7 +35,11 @@
 		protected String doInBackground(String... f_url) {
 			try {
 			if (isOnline()) {
-				Call network related fuction here
+			//Call network related fuction here
+			// If its a Soap Request - Add WebserviceCall.java class here 
+			// If its a Restfull/Direct URL Request - Add (Common Method to access server data) method.
+			   passingresult ="result";
+			 
 				} else {
 					passingresult = "networkError";
 					return passingresult;
